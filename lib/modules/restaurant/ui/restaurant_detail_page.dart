@@ -125,7 +125,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                     ),
                     ReadMoreText(
                       data.description,
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.justify,
                       trimMode: TrimMode.Line,
                       trimLines: 6,
                       colorClickableText: Colors.blue,
