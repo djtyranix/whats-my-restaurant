@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           id: ModalRoute.of(context)?.settings.arguments as String,
         ),
         AddReviewPage.routeName: (context) => AddReviewPage(
-          id: ModalRoute.of(context)?.settings.arguments as String,
+          data: ModalRoute.of(context)?.settings.arguments as Map<String, String>,
         )
       },
     );

@@ -48,14 +48,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           padding: EdgeInsets.only(top: 8, left: 20, right: 20, bottom: 32),
           child: Container(
             height: 54,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AddReviewPage.routeName, arguments: widget.id);
-              }, 
-              style: ElevatedButton.styleFrom(shape: StadiumBorder()),
-              child: Text(
-                'Add Review'
-              )
+            child: Consumer<RestaurantDetailViewModel>(
+              builder: (context, viewModel, _) {
+                return ElevatedButton(
+                  onPressed: () {
+                    var data = {
+                      'id': widget.id,
+                      'name': viewModel.result.name
+                    };
+                    Navigator.pushNamed(context, AddReviewPage.routeName, arguments: data);
+                  }, 
+                  style: ElevatedButton.styleFrom(shape: StadiumBorder()),
+                  child: Text(
+                    'Add Review'
+                  )
+                );
+              }
             ),
           ),
         ),
