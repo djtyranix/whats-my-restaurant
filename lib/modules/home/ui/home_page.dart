@@ -4,15 +4,27 @@ import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
 
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final HomeInteractor interactor = DependencyInjection.getIt.get<HomeInteractor>();
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final HomeInteractor interactor = DependencyInjection.getIt.get<HomeInteractor>();
+  late Future<List<RestaurantList>> _futureRestaurantList;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureRestaurantList = interactor.getRestaurantList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -42,15 +54,26 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: FutureBuilder(
-                future: interactor.getRestaurantList(), 
+                future: _futureRestaurantList, 
                 builder: (context, snapshot) {
-                  final list = snapshot.data ?? [];
-                  return ListView.builder(
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      return _buildListItem(context, list[index]);
+                  var state = snapshot.connectionState;
+                  if (state != ConnectionState.done) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    if (snapshot.hasData) {
+                      final list = snapshot.data ?? [];
+                      return ListView.builder(
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          return _buildListItem(context, list[index]);
+                        }
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("${snapshot.error}"));
+                    } else {
+                      return Container();
                     }
-                  );
+                  }
                 }
               ),
             )

@@ -25,12 +25,12 @@ class RestaurantList {
     required this.pictureId
   });
 
-  factory RestaurantList.fromResponse(RestaurantResponseItem response) => RestaurantList(
+  factory RestaurantList.fromResponse(RestaurantListResponse response) => RestaurantList(
     id: response.id, 
     name: response.name, 
     city: response.city, 
     rating: response.rating,
-    pictureId: response.pictureId
+    pictureId: 'https://restaurant-api.dicoding.dev/images/small/${response.pictureId}'
   );
 }
 
@@ -40,8 +40,11 @@ class RestaurantDetail {
   final String description;
   final String pictureId;
   final String city;
-  final num rating;
+  final String address;
   final RestaurantMenu menus;
+  final num rating;
+  final List<Menu> categories;
+  final List<RestaurantReview> customerReviews;
 
   RestaurantDetail({
     required this.id,
@@ -49,18 +52,24 @@ class RestaurantDetail {
     required this.description,
     required this.pictureId,
     required this.city,
+    required this.address,
     required this.rating,
     required this.menus,
+    required this.categories,
+    required this.customerReviews
   });
 
-  factory RestaurantDetail.fromResponse(RestaurantResponseItem response) => RestaurantDetail(
+  factory RestaurantDetail.fromResponse(RestaurantDetailResponse response) => RestaurantDetail(
     id: response.id, 
     name: response.name, 
     description: response.description, 
-    pictureId: response.pictureId, 
-    city: response.city, 
+    pictureId: 'https://restaurant-api.dicoding.dev/images/large/${response.pictureId}', 
+    city: response.city,
+    address: response.address,
     rating: response.rating, 
-    menus: RestaurantMenu.fromResponse(response.menus)
+    menus: RestaurantMenu.fromResponse(response.menus),
+    categories: response.categories.map((category) => Menu.fromResponse(category)).toList(),
+    customerReviews: response.customerReviews.map((review) => RestaurantReview.fromResponse(review)).toList()
   );
 }
 
@@ -73,8 +82,26 @@ class RestaurantMenu{
     required this.drinks
   });
 
-  factory RestaurantMenu.fromResponse(RestaurantMenuResponseItem response) => RestaurantMenu(
+  factory RestaurantMenu.fromResponse(RestaurantMenuResponse response) => RestaurantMenu(
     foods: response.foods.map(((model) => Menu.fromResponse(model))).toList(),
     drinks: response.drinks.map(((model) => Menu.fromResponse(model))).toList()
+  );
+}
+
+class RestaurantReview {
+  final String name;
+  final String review;
+  final String date;
+
+  RestaurantReview({
+    required this.name,
+    required this.review,
+    required this.date
+  });
+
+  factory RestaurantReview.fromResponse(RestaurantReviewResponse data) => RestaurantReview(
+    name: data.name, 
+    review: data.review, 
+    date: data.date
   );
 }
