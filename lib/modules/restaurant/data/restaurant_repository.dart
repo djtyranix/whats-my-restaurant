@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/services.dart';
+import 'package:whats_on_restaurant/data/api/api_request.dart';
+import 'package:whats_on_restaurant/data/source/remote_data_source.dart';
 import 'package:whats_on_restaurant/domain/models/response/restaurant_response.dart';
 
 abstract class RestaurantRepository {
@@ -8,13 +8,18 @@ abstract class RestaurantRepository {
 }
 
 class RestaurantRepositoryImpl implements RestaurantRepository {
+  final RemoteDataSource remote;
+
+  RestaurantRepositoryImpl({
+    required this.remote
+  });
+
   @override
   Future<RestaurantDetailResponse> getRestaurantDetail(String id) async {
     try {
-      final json = await rootBundle.loadString('assets/json/local_restaurant.json');
-      final List dataList = jsonDecode(json)['restaurants'];
-      final list = dataList.map((object) => RestaurantDetailResponse.fromJson(object)).toList();
-      return list.where((item) => item.id == id).toList().first;
+      final json = await remote.request(ApiRequest.restaurantDetail, id, null, null);
+      final data = json['restaurant'];
+      return RestaurantDetailResponse.fromJson(data);
     } catch(e) {
       log(e.toString());
       throw Exception;

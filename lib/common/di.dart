@@ -22,7 +22,9 @@ class DependencyInjection {
     getIt.registerSingleton<HomeRepository>(HomeRepositoryImpl(
       remote: getIt.get<RemoteDataSource>()
     ));
-    getIt.registerSingleton<RestaurantRepository>(RestaurantRepositoryImpl());
+    getIt.registerSingleton<RestaurantRepository>(RestaurantRepositoryImpl(
+      remote: getIt.get<RemoteDataSource>()
+    ));
   }
 
   static void _registerInteractor() {

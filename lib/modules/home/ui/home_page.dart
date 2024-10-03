@@ -101,6 +101,42 @@ class _HomePageState extends State<HomePage> {
                 height: 80,
                 fit: BoxFit.fill,
                 errorBuilder: (context, error, _) => const Center(child: Icon(Icons.error)),
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (frame == null) {
+                    return SizedBox(
+                      width: 120,
+                      height: 80,
+                      child: Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator()
+                        )
+                      )
+                    );
+                  }
+
+                  return child;
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) { return child; }
+                  return SizedBox(
+                    width: 120,
+                    height: 80,
+                    child: Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        )
+                      )
+                    )
+                  );
+                },
               ),
             ),
             Expanded(

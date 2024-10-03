@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Splash Screen Delay
     Timer(Duration(seconds: 1), () {
       FlutterNativeSplash.remove();
     });

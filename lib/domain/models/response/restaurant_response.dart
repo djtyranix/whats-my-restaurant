@@ -1,5 +1,3 @@
-import 'package:whats_on_restaurant/domain/models/restaurant.dart';
-
 class MenuResponse {
   final String name;
 
