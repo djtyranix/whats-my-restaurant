@@ -184,7 +184,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
             ),
           );
           Timer(Duration(milliseconds: 500), () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           });
         }
         break;

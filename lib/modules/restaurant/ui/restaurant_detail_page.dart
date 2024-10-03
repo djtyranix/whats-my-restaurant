@@ -7,6 +7,7 @@ import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/viewmodel/restaurant_detail_view_model.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
+import 'package:whats_on_restaurant/modules/review/ui/all_review_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -52,23 +53,27 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(top: 8, left: 20, right: 20, bottom: 32),
-          child: Container(
+          child: SizedBox(
             height: 54,
             child: Consumer<RestaurantDetailViewModel>(
               builder: (context, viewModel, _) {
-                return ElevatedButton(
-                  onPressed: () {
-                    var data = {
-                      'id': widget.id,
-                      'name': viewModel.result.name
-                    };
-                    Navigator.pushNamed(context, AddReviewPage.routeName, arguments: data);
-                  }, 
-                  style: ElevatedButton.styleFrom(shape: StadiumBorder()),
-                  child: Text(
-                    'Add Review'
-                  )
-                );
+                if (viewModel.state == ResultState.hasData) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      var data = {
+                        'id': widget.id,
+                        'name': viewModel.result.name
+                      };
+                      Navigator.pushNamed(context, AddReviewPage.routeName, arguments: data);
+                    }, 
+                    style: ElevatedButton.styleFrom(shape: StadiumBorder()),
+                    child: Text(
+                      'Add Review'
+                    )
+                  );
+                } else {
+                  return Container();
+                }
               }
             ),
           ),
@@ -294,13 +299,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                           : data.customerReviews.length,
                   itemBuilder: (context, index) {
                     return _buildReviewItem(
-                      context, data.customerReviews[index], 
+                      context, 
+                      data.customerReviews[index],
+                      data.customerReviews,
                       isLast: data.customerReviews.length > 5
                             ? index == 5
                             : index == data.customerReviews.length - 1,
                       isViewAll: data.customerReviews.length > 5
                               ? index == 5
-                              : false
+                              : false,
                     );
                   }
                 ),
@@ -407,12 +414,12 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     }
   }
 
-  Widget _buildReviewItem(BuildContext context, RestaurantReview review, {bool isLast = false, bool isViewAll = false}) {
+  Widget _buildReviewItem(BuildContext context, RestaurantReview review, List<RestaurantReview> allReview, {bool isLast = false, bool isViewAll = false}) {
     if (isViewAll) {
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          // TODO: Add navigation to All Reviews
+          Navigator.pushNamed(context, AllReviewPage.routeName, arguments: allReview);
         },
         child: SizedBox(
           width: 120,
