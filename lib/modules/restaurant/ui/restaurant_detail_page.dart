@@ -40,7 +40,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 return _buildMainView(context, viewModel.result);
               case ResultState.noData:
               case ResultState.error:
-                return Center(child: Text(viewModel.message));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error: ${viewModel.message}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return Container();
             }
           }
         ),

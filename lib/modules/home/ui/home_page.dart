@@ -63,7 +63,13 @@ class _HomePageState extends State<HomePage> {
                         );
                       case ResultState.noData:
                       case ResultState.error:
-                        return Center(child: Text(viewModel.message));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: ${viewModel.message}'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return Container();
                     }
                   }
                 )
