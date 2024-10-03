@@ -3,6 +3,7 @@ import 'package:readmore/readmore.dart';
 import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
+import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -293,7 +294,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           height: 54,
           child: ElevatedButton(
             onPressed: () {
-              // TODO: Add Review Action
+              Navigator.pushNamed(context, AddReviewPage.routeName, arguments: widget.id);
             }, 
             style: ElevatedButton.styleFrom(shape: StadiumBorder()),
             child: Text(

@@ -5,6 +5,7 @@ import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/styles.dart';
 import 'package:whats_on_restaurant/modules/home/ui/home_page.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
+import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
 
 void main() {
   DependencyInjection.configure();
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
+          id: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        AddReviewPage.routeName: (context) => AddReviewPage(
           id: ModalRoute.of(context)?.settings.arguments as String,
         )
       },
