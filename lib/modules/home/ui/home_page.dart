@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whats_on_restaurant/common/di.dart';
+import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
+import 'package:whats_on_restaurant/modules/home/viewmodel/home_view_model.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,70 +17,59 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomeInteractor interactor = DependencyInjection.getIt.get<HomeInteractor>();
-  late Future<List<RestaurantList>> _futureRestaurantList;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureRestaurantList = interactor.getRestaurantList();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        forceMaterialTransparency: true,
-        title: Text(
-          'What\'s on Restaurant?',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24
-          ),
-        )
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                'Some local goodness.',
-                style: TextStyle(
-                  fontSize: 20
-                ),
-                textAlign: TextAlign.start,
-              ),
+    return ChangeNotifierProvider(
+      create: (context) => HomeViewModel(interactor: DependencyInjection.getIt.get<HomeInteractor>()),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          forceMaterialTransparency: true,
+          title: Text(
+            'What\'s on Restaurant?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24
             ),
-            Expanded(
-              child: FutureBuilder(
-                future: _futureRestaurantList, 
-                builder: (context, snapshot) {
-                  var state = snapshot.connectionState;
-                  if (state != ConnectionState.done) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    if (snapshot.hasData) {
-                      final list = snapshot.data ?? [];
-                      return ListView.builder(
-                        itemCount: list.length,
-                        itemBuilder: (context, index) {
-                          return _buildListItem(context, list[index]);
-                        }
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text("${snapshot.error}"));
-                    } else {
-                      return Container();
+          )
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Some local goodness.',
+                  style: TextStyle(
+                    fontSize: 20
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Expanded(
+                child: Consumer<HomeViewModel>(
+                  builder: (context, viewModel, _) {
+                    switch (viewModel.state) {
+                      case ResultState.loading:
+                        return const Center(child: CircularProgressIndicator());
+                      case ResultState.hasData:
+                        return ListView.builder(
+                          itemCount: viewModel.result.length,
+                          itemBuilder: (context, index) {
+                            return _buildListItem(context, viewModel.result[index]);
+                          }
+                        );
+                      case ResultState.noData:
+                      case ResultState.error:
+                        return Center(child: Text(viewModel.message));
                     }
                   }
-                }
-              ),
-            )
-          ],
+                )
+              )
+            ],
+          ),
         ),
       ),
     );
