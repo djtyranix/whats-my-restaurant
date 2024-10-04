@@ -3,7 +3,7 @@ import 'package:readmore/readmore.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 
 class AllReviewPage extends StatelessWidget {
-  static const routeName = '/all_review';
+  static const routeName = '/all_reviews';
   final List<RestaurantReview> reviews;
 
   const AllReviewPage({super.key, 
@@ -15,7 +15,7 @@ class AllReviewPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('All Review'),
+        title: Text('All Reviews'),
       ),
       body: Column(
         children: [

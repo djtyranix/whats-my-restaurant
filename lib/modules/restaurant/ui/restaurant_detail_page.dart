@@ -278,12 +278,29 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                'Reviews',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Reviews',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _onTapAllReviews(data.customerReviews);
+                    },
+                    style: TextButton.styleFrom(
+                      splashFactory: NoSplash.splashFactory
+                    ),
+                    child: Text(
+                      'Show All'
+                    )
+                  )
+                ],
               ),
             ),
             Padding(
@@ -417,7 +434,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          Navigator.pushNamed(context, AllReviewPage.routeName, arguments: allReview);
+          _onTapAllReviews(allReview);
         },
         child: SizedBox(
           width: 120,
@@ -483,5 +500,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
         ),
       );
     }
+  }
+
+  void _onTapAllReviews(List<RestaurantReview> allReview) {
+    Navigator.pushNamed(context, AllReviewPage.routeName, arguments: allReview);
   }
 }
