@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
                   builder: (context, viewModel, _) {
                     return SearchBar(
                       autoFocus: true,
-                      hintText: 'A fancy restaurant name...',
+                      hintText: 'Coffee, A fancy restaurant...',
                       leading: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
