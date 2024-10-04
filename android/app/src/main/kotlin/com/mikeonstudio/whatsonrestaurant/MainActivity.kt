@@ -1,4 +1,4 @@
-package com.example.whats_on_restaurant
+package com.mikeonstudio.whatsonrestaurant
 
 import io.flutter.embedding.android.FlutterActivity
 
