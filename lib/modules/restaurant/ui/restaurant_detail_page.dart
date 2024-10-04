@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:whats_on_restaurant/common/di.dart';
+import 'package:whats_on_restaurant/common/error_handler.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
@@ -41,12 +42,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 return _buildMainView(context, viewModel.result);
               case ResultState.noData:
               case ResultState.error:
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Error: ${viewModel.message}'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ErrorHandler.handleError(context, viewModel.message);
+                });
                 return Container();
             }
           }

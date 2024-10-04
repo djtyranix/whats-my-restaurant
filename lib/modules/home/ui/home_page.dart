@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_on_restaurant/common/di.dart';
+import 'package:whats_on_restaurant/common/error_handler.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: Consumer<HomeViewModel>(
-                  builder: (context, viewModel, _) {
+                  builder: (context, viewModel, child) {
                     switch (viewModel.state) {
                       case ResultState.loading:
                         return const Center(child: CircularProgressIndicator());
@@ -63,12 +64,9 @@ class _HomePageState extends State<HomePage> {
                         );
                       case ResultState.noData:
                       case ResultState.error:
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Error: ${viewModel.message}'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ErrorHandler.handleError(context, viewModel.message);
+                        });
                         return Container();
                     }
                   }

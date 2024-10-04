@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_on_restaurant/common/di.dart';
+import 'package:whats_on_restaurant/common/error_handler.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/modules/review/interactor/review_interactor.dart';
 import 'package:whats_on_restaurant/modules/review/viewmodel/add_review_view_model.dart';
@@ -191,12 +191,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
       case ResultState.noData:
       case ResultState.error:
         context.loaderOverlay.hide();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error submitting form, please try again later.'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ErrorHandler.handleError(context, 'Error submitting form, please try again later.');
         break;
     }
   }

@@ -14,9 +14,9 @@ class ReviewRequest implements Request {
   @override
   Map<String, dynamic> payload() {
     return {
-      'id': this.id,
-      'name': this.name,
-      'review': this.review
+      'id': id,
+      'name': name,
+      'review': review
     };
   }
 }
