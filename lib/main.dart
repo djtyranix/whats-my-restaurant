@@ -8,6 +8,7 @@ import 'package:whats_on_restaurant/modules/home/ui/home_page.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
 import 'package:whats_on_restaurant/modules/review/ui/all_review_page.dart';
+import 'package:whats_on_restaurant/modules/search/ui/search_page.dart';
 
 void main() {
   DependencyInjection.configure();
@@ -15,6 +16,8 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
+
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -30,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'What\'s on Restaurant?',
       theme: getThemeData(context),
+      navigatorObservers: [routeObserver],
       initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
@@ -42,6 +46,7 @@ class MyApp extends StatelessWidget {
         AllReviewPage.routeName: (context) => AllReviewPage(
           reviews: ModalRoute.of(context)?.settings.arguments as List<RestaurantReview>
         ),
+        SearchPage.routeName: (context) => const SearchPage()
       },
     );
   }

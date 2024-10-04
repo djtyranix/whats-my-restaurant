@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 extension SuccessCheck on Response {
@@ -5,3 +6,5 @@ extension SuccessCheck on Response {
     return statusCode >= 200 && statusCode < 300;
   }
 }
+
+typedef ViewModel = ChangeNotifier;

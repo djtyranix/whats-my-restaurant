@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel extends ViewModel {
   final HomeInteractor interactor;
 
   late List<RestaurantList> _resultList;

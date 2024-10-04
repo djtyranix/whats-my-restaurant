@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
 
-class RestaurantDetailViewModel extends ChangeNotifier {
+class RestaurantDetailViewModel extends ViewModel {
   final RestaurantDetailInteractor interactor;
   final String id;
 

@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart';
+import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/modules/review/interactor/review_interactor.dart';
 
-class AddReviewViewModel extends ChangeNotifier {
+class AddReviewViewModel extends ViewModel {
   final ReviewInteractor interactor;
   final String id;
 
