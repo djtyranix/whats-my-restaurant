@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
@@ -8,15 +9,28 @@ class SearchViewModel extends ViewModel {
   
   SearchViewModel({
     required this.interactor
-  });
+  }) {
+    Connectivity().onConnectivityChanged.listen((result) {
+      _connectivityResult = result;
+      _checkConnectivity();
+    });
+
+    getConnection();
+  }
 
   late List<RestaurantList> _resultList;
   late ResultState _state = ResultState.noData;
   String _message = 'Data is Empty.';
+  List<ConnectivityResult> _connectivityResult = [];
 
   String get message => _message;
   List<RestaurantList> get result => _resultList;
   ResultState get state => _state;
+
+  void getConnection() async {
+    _connectivityResult = await Connectivity().checkConnectivity();
+    _checkConnectivity();
+  }
 
   Future<dynamic> search(String query) async {
     try {
@@ -36,6 +50,15 @@ class SearchViewModel extends ViewModel {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error: $e';
+    }
+  }
+
+  Future<dynamic> _checkConnectivity() async {
+    if (_connectivityResult.contains(ConnectivityResult.none)) {
+      // No internet connection
+      _state = ResultState.noConnection;
+      notifyListeners();
+      return _message = 'Error: No internet connection.';
     }
   }
 }

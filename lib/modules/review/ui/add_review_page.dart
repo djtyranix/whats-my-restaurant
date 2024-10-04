@@ -187,10 +187,21 @@ class _AddReviewPageState extends State<AddReviewPage> {
           });
         }
         break;
+      case ResultState.noConnection:
+      context.loaderOverlay.hide();
+        ErrorHandler.handleError(
+          context: context, 
+          error: viewModel.message,
+          autoDismiss: false,
+          actionLabel: 'Retry', 
+          action: () {
+            viewModel.getConnection();
+        });
+        break;
       case ResultState.noData:
       case ResultState.error:
         context.loaderOverlay.hide();
-        ErrorHandler.handleError(context, 'Error submitting form, please try again later.');
+        ErrorHandler.handleError(context: context, error: 'Error submitting form, please try again later.');
         break;
     }
   }

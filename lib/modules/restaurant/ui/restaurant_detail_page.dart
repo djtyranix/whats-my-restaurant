@@ -5,6 +5,7 @@ import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/error_handler.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
+import 'package:whats_on_restaurant/main.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/viewmodel/restaurant_detail_view_model.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
@@ -21,8 +22,21 @@ class RestaurantDetailPage extends StatefulWidget {
   State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
 }
 
-class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
+class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteAware {
   var top = 0.0;
+  late RestaurantDetailViewModel viewModel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    viewModel.getConnection();
+    super.didPopNext();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +49,28 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
         backgroundColor: Colors.white,
         body: Consumer<RestaurantDetailViewModel>(
           builder: (context, viewModel, _) {
+            this.viewModel = viewModel;
             switch (viewModel.state) {
               case ResultState.loading:
                 return const Center(child: CircularProgressIndicator());
               case ResultState.hasData:
                 return _buildMainView(context, viewModel.result);
+              case ResultState.noConnection:
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ErrorHandler.handleError(
+                    context: context, 
+                    error: viewModel.message,
+                    autoDismiss: false,
+                    actionLabel: 'Retry', 
+                    action: () {
+                    viewModel.getConnection();
+                  });
+                });
+                return Container();
               case ResultState.noData:
               case ResultState.error:
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ErrorHandler.handleError(context, viewModel.message);
+                  ErrorHandler.handleError(context: context, error: viewModel.message);
                 });
                 return Container();
             }

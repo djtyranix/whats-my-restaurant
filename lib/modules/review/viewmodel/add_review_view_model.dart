@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/modules/review/interactor/review_interactor.dart';
@@ -9,6 +10,7 @@ class AddReviewViewModel extends ViewModel {
   late bool _result;
   late ResultState _state;
   String _message = '';
+  List<ConnectivityResult> _connectivityResult = [];
 
   String get message => _message;
   bool get result => _result;
@@ -17,7 +19,19 @@ class AddReviewViewModel extends ViewModel {
   AddReviewViewModel({
     required this.interactor,
     required this.id
-  });
+  }) {
+    Connectivity().onConnectivityChanged.listen((result) {
+      _connectivityResult = result;
+      _checkConnectivity();
+    });
+
+    getConnection();
+  }
+
+  void getConnection() async {
+    _connectivityResult = await Connectivity().checkConnectivity();
+    _checkConnectivity();
+  }
 
   Future<dynamic> addReview(String name, String review) async {
     try {
@@ -31,6 +45,15 @@ class AddReviewViewModel extends ViewModel {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error: $e';
+    }
+  }
+
+  Future<dynamic> _checkConnectivity() async {
+    if (_connectivityResult.contains(ConnectivityResult.none)) {
+      // No internet connection
+      _state = ResultState.noConnection;
+      notifyListeners();
+      return _message = 'Error: No internet connection.';
     }
   }
 }

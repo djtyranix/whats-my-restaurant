@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:whats_on_restaurant/common/extensions.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
@@ -8,8 +9,9 @@ class RestaurantDetailViewModel extends ViewModel {
   final String id;
 
   late RestaurantDetail _result;
-  late ResultState _state;
+  late ResultState _state = ResultState.loading;
   String _message = '';
+  List<ConnectivityResult> _connectivityResult = [];
 
   String get message => _message;
   RestaurantDetail get result => _result;
@@ -19,7 +21,17 @@ class RestaurantDetailViewModel extends ViewModel {
     required this.interactor,
     required this.id
   }) {
-    _fetchRestaurantDetailWithId(id);
+    Connectivity().onConnectivityChanged.listen((result) {
+      _connectivityResult = result;
+      _checkConnectivity();
+    });
+
+    getConnection();
+  }
+
+  void getConnection() async {
+    _connectivityResult = await Connectivity().checkConnectivity();
+    _checkConnectivity();
   }
 
   Future<dynamic> _fetchRestaurantDetailWithId(String id) async {
@@ -34,6 +46,17 @@ class RestaurantDetailViewModel extends ViewModel {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error: $e';
+    }
+  }
+
+  Future<dynamic> _checkConnectivity() async {
+    if (_connectivityResult.contains(ConnectivityResult.none)) {
+      // No internet connection
+      _state = ResultState.noConnection;
+      notifyListeners();
+      return _message = 'Error: No internet connection.';
+    } else {
+      return _fetchRestaurantDetailWithId(id);
     }
   }
 }

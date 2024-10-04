@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
   @override
   void didPopNext() {
     _focusNode.unfocus();
+    var viewModel = Provider.of<HomeViewModel>(context);
+    viewModel.getConnection();
     super.didPopNext();
   }
 
@@ -100,7 +102,19 @@ class _HomePageState extends State<HomePage> with RouteAware {
                       case ResultState.noData:
                       case ResultState.error:
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ErrorHandler.handleError(context, viewModel.message);
+                          ErrorHandler.handleError(context: context, error: viewModel.message);
+                        });
+                        return Container();
+                      case ResultState.noConnection:
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ErrorHandler.handleError(
+                            context: context, 
+                            error: viewModel.message,
+                            autoDismiss: false,
+                            actionLabel: 'Retry', 
+                            action: () {
+                            viewModel.getConnection();
+                          });
                         });
                         return Container();
                     }

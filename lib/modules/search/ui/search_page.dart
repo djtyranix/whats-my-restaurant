@@ -85,9 +85,21 @@ class _SearchPageState extends State<SearchPage> {
                             )
                           ],
                         );
+                      case ResultState.noConnection:
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ErrorHandler.handleError(
+                            context: context, 
+                            error: viewModel.message,
+                            autoDismiss: false,
+                            actionLabel: 'Retry', 
+                            action: () {
+                            viewModel.getConnection();
+                          });
+                        });
+                        return Container();
                       case ResultState.error:
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ErrorHandler.handleError(context, viewModel.message);
+                          ErrorHandler.handleError(context: context, error: viewModel.message);
                         });
                         return Container();
                     }
