@@ -141,7 +141,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
                           builder: (context, viewModel, _) {
                             return ElevatedButton(
                               onPressed: () {
-                                // TODO: Add Review Logic
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState!.save();
                                   context.loaderOverlay.show();
