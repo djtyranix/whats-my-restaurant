@@ -24,6 +24,7 @@ class RestaurantDetailPage extends StatefulWidget {
 
 class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteAware {
   var top = 0.0;
+  var isCollapsed = false;
   late RestaurantDetailViewModel viewModel;
 
   @override
@@ -132,6 +133,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
               builder: (context, constraints) {
                 top = constraints.biggest.height;
                 var toolbarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+                isCollapsed = (top == toolbarHeight);
                 return FlexibleSpaceBar(
                   background: Image.network(
                     data.pictureId,
@@ -157,11 +159,12 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                       );
                     },
                   ),
+                  centerTitle: true,
                   title: AnimatedOpacity(
                     duration: Duration(milliseconds: 300), 
                     opacity: 1.0,
                     child: Text(
-                      top == toolbarHeight
+                      isCollapsed
                       ? data.name
                       : ""
                     ),
