@@ -67,16 +67,6 @@ class _HomePageState extends State<HomePage> with RouteAware {
         appBar: AppBar(
           centerTitle: false,
           forceMaterialTransparency: true,
-          title: Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: Text(
-              'What\'s on Restaurant?',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24
-              ),
-            ),
-          ),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
@@ -87,7 +77,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 child: Icon(
                   Icons.favorite_outline_outlined,
                   weight: 100,
-                  size: 26,
+                  size: 28,
                 ),
               ),
             ),
@@ -100,7 +90,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 child: Icon(
                   Icons.settings_outlined,
                   weight: 100,
-                  size: 26,
+                  size: 28,
                 ),
               ),
             )
@@ -111,12 +101,19 @@ class _HomePageState extends State<HomePage> with RouteAware {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'What\'s on Restaurant?',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Text(
                   'Some local goodness.',
                   style: TextStyle(
-                    fontSize: 20
+                    fontSize: 18
                   ),
                   textAlign: TextAlign.start,
                 ),

@@ -114,5 +114,4 @@ class RestaurantListView extends StatelessWidget {
       ),
     );
   }
-  
 }
