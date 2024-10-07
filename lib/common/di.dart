@@ -1,7 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:realm/realm.dart';
 import 'package:whats_on_restaurant/common/helper/background_service.dart';
 import 'package:whats_on_restaurant/common/helper/notification_helper.dart';
+import 'package:whats_on_restaurant/data/source/local_data_source.dart';
 import 'package:whats_on_restaurant/data/source/remote_data_source.dart';
+import 'package:whats_on_restaurant/domain/objects/restaurant_list_object.dart';
 import 'package:whats_on_restaurant/modules/home/data/home_repository.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/data/restaurant_repository.dart';
@@ -31,7 +34,16 @@ class DependencyInjection {
   }
 
   static void _registerDataSource() {
+    var config = Configuration.local([
+      RestaurantListObject.schema
+    ]);
+
+    var realm = Realm(config);
+    
     _getIt.registerSingleton<RemoteDataSource>(RemoteDataSourceImpl());
+    _getIt.registerSingleton<LocalDataSource>(
+      LocalDataSourceImpl.withRealm(realm)
+    );
   }
 
   static void _registerRepository() {

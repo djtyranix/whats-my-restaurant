@@ -185,12 +185,30 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              data.name,
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  data.name,
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                Consumer<RestaurantDetailViewModel>(
+                  builder: (context, viewModel, _) {
+                    return IconButton(
+                      onPressed: () {
+                        
+                      },
+                      icon: Icon(
+                        Icons.favorite_outline,
+                        size: 28,
+                      )
+                    );
+                  },
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4),
