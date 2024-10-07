@@ -14,7 +14,6 @@ class AllReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text('All Reviews'),
       ),
       body: Column(

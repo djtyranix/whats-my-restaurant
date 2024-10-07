@@ -4,6 +4,7 @@ import 'package:readmore/readmore.dart';
 import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/helper/snackbar_helper.dart';
 import 'package:whats_on_restaurant/common/navigation.dart';
+import 'package:whats_on_restaurant/common/preference/preference_provider.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/main.dart';
@@ -47,7 +48,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
         id: widget.id
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Consumer<RestaurantDetailViewModel>(
           builder: (context, viewModel, _) {
             this.viewModel = viewModel;
@@ -115,16 +115,20 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
           SliverAppBar(
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }, 
-                  icon: Icon(
-                    Icons.chevron_left
-                  )
-                ),
+              child: Consumer<PreferenceProvider>(
+                builder: (context, preference, _) {
+                  return CircleAvatar(
+                    backgroundColor: preference.isDarkTheme ? Theme.of(context).primaryColor : Colors.white,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }, 
+                      icon: Icon(
+                        Icons.chevron_left,
+                      )
+                    ),
+                  );
+                } 
               ),
             ),
             pinned: true,

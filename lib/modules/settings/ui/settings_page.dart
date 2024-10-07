@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_on_restaurant/modules/settings/settings_list.dart';
+import 'package:whats_on_restaurant/common/preference/preference_provider.dart';
+import 'package:whats_on_restaurant/common/preference/settings_list.dart';
 import 'package:whats_on_restaurant/modules/settings/viewmodel/settings_view_model.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -15,15 +16,15 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    List<SettingsType> list = defaultTargetPlatform == TargetPlatform.iOS
+    List<Settings> list = defaultTargetPlatform == TargetPlatform.iOS
               ? SettingsList.iosList
               : SettingsList.androidList;
 
-    return ChangeNotifierProvider(
-      create: (context) => SettingsViewModel(),
+    return ChangeNotifierProxyProvider<PreferenceProvider, SettingsViewModel>(
+      create: (context) => SettingsViewModel(preference: Provider.of<PreferenceProvider>(context, listen: false)),
+      update: (_, preference, viewModel) => viewModel!..update(preference),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(
             'Settings'
           ),

@@ -18,7 +18,6 @@ class _FavoritePageState extends State<FavoritePage> {
       create: (context) => FavoriteViewModel(),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(
             'Your Favorites'
           ),

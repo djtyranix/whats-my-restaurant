@@ -55,12 +55,20 @@ enum Settings {
   dynamic action(BuildContext context, {SettingsViewModel? viewModel}) {
     switch (this) {
       case Settings.darkMode:
-        return Switch.adaptive(
-          value: false, 
-          onChanged: (isSwitchedOn) {
-
-          }
-        );
+        if (viewModel != null) {
+          return Switch.adaptive(
+            value: viewModel.isDarkTheme, 
+            onChanged: (isSwitchedOn) async {
+              viewModel.setDarkTheme(state: isSwitchedOn);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                SnackbarHelper.handleSuccess(
+                  context: context,
+                  message: 'Dark theme is turned ${isSwitchedOn ? 'on' : 'off'}'
+                );
+              });
+            }
+          );
+        }
       case Settings.appVersion:
         return packageInfo.version;
       case Settings.localNotification:

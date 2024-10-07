@@ -12,7 +12,7 @@ import 'package:whats_on_restaurant/modules/search/data/search_repository.dart';
 import 'package:whats_on_restaurant/modules/search/interactor/search_interactor.dart';
 
 class DependencyInjection {
-  static GetIt _getIt = GetIt.instance;
+  static final GetIt _getIt = GetIt.instance;
 
   static T getInstance<T extends Object>() {
     return _getIt.get();

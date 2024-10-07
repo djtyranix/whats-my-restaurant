@@ -37,25 +37,16 @@ final TextTheme mainTextTheme = TextTheme(
       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 0),
 );
 
-ThemeData getThemeData(BuildContext context) {
+ThemeData getThemeData(BuildContext context, Brightness brightness) {
   return ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF1F85E0)),
+    colorScheme: ColorScheme.fromSeed(
+      brightness: brightness,
+      seedColor: Color(0xFF1F85E0)
+    ),
     textTheme: mainTextTheme,
     appBarTheme: const AppBarTheme(
       elevation: 0,
-      centerTitle: false
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: secondaryColor,
-        foregroundColor: Colors.white,
-        textStyle: mainTextTheme.titleMedium,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(0)
-          )
-        )
-      )
+      centerTitle: true
     )
   );
 }

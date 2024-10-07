@@ -35,7 +35,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
       child: LoaderOverlay(
         child: Scaffold(
           appBar: AppBar(
-            centerTitle: true,
             title: Text(
               "Add Review"
             ),

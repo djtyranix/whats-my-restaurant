@@ -23,7 +23,6 @@ class _SearchPageState extends State<SearchPage> {
       create: (context) => SearchViewModel(interactor: DependencyInjection.getInstance<SearchInteractor>()),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(
             'Search'
           ),
