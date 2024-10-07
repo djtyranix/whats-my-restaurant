@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_on_restaurant/common/di.dart';
-import 'package:whats_on_restaurant/common/error_handler.dart';
+import 'package:whats_on_restaurant/common/helper/snackbar_helper.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/common/ui/restaurant_list_view.dart';
 import 'package:whats_on_restaurant/modules/search/interactor/search_interactor.dart';
@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SearchViewModel(interactor: DependencyInjection.getIt.get<SearchInteractor>()),
+      create: (context) => SearchViewModel(interactor: DependencyInjection.getInstance<SearchInteractor>()),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -87,7 +87,7 @@ class _SearchPageState extends State<SearchPage> {
                         );
                       case ResultState.noConnection:
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ErrorHandler.handleError(
+                          SnackbarHelper.handleError(
                             context: context, 
                             error: viewModel.message,
                             autoDismiss: false,
@@ -99,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                         return Container();
                       case ResultState.error:
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ErrorHandler.handleError(context: context, error: viewModel.message);
+                          SnackbarHelper.handleError(context: context, error: viewModel.message);
                         });
                         return Container();
                     }

@@ -40,7 +40,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       return jsonDecode(response.body);
     } else {
       // Api call failed
-      // TODO(michael): Add Error Handler
       throw Exception('Error ${response.statusCode}');
     }
   }
@@ -52,8 +51,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       // Api call success
       return jsonDecode(response.body);
     } else {
-      // Api call failed
-      // TODO(michael): Add Error Handler
+      // Api call faileds
       throw Exception('Error ${response.statusCode}');
     }
   }

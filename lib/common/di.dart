@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:whats_on_restaurant/common/helper/background_service.dart';
+import 'package:whats_on_restaurant/common/helper/notification_helper.dart';
 import 'package:whats_on_restaurant/data/source/remote_data_source.dart';
 import 'package:whats_on_restaurant/modules/home/data/home_repository.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
@@ -10,66 +12,76 @@ import 'package:whats_on_restaurant/modules/search/data/search_repository.dart';
 import 'package:whats_on_restaurant/modules/search/interactor/search_interactor.dart';
 
 class DependencyInjection {
-  static GetIt getIt = GetIt.instance;
+  static GetIt _getIt = GetIt.instance;
+
+  static T getInstance<T extends Object>() {
+    return _getIt.get();
+  }
 
   static void configure() {
+    _registerHelpers();
     _registerDataSource();
     _registerRepository();
     _registerInteractor();
   }
 
+  static void _registerHelpers() {
+    _getIt.registerSingleton(NotificationHelper());
+    _getIt.registerSingleton(BackgroundService());
+  }
+
   static void _registerDataSource() {
-    getIt.registerSingleton<RemoteDataSource>(RemoteDataSourceImpl());
+    _getIt.registerSingleton<RemoteDataSource>(RemoteDataSourceImpl());
   }
 
   static void _registerRepository() {
-    getIt.registerSingleton<HomeRepository>(
+    _getIt.registerSingleton<HomeRepository>(
       HomeRepositoryImpl(
-        remote: getIt.get<RemoteDataSource>()
+        remote: _getIt.get<RemoteDataSource>()
       )
     );
 
-    getIt.registerSingleton<RestaurantRepository>(
+    _getIt.registerSingleton<RestaurantRepository>(
       RestaurantRepositoryImpl(
-        remote: getIt.get<RemoteDataSource>()
+        remote: _getIt.get<RemoteDataSource>()
       )
     );
 
-    getIt.registerSingleton<ReviewRepository>(
+    _getIt.registerSingleton<ReviewRepository>(
       ReviewRepositoryImpl(
-        remote: getIt.get<RemoteDataSource>()
+        remote: _getIt.get<RemoteDataSource>()
       )
     );
 
-    getIt.registerSingleton<SearchRepository>(
+    _getIt.registerSingleton<SearchRepository>(
       SearchRepositoryImpl(
-        remote: getIt.get<RemoteDataSource>()
+        remote: _getIt.get<RemoteDataSource>()
       )
     );
   }
 
   static void _registerInteractor() {
-    getIt.registerSingleton<HomeInteractor>(
+    _getIt.registerSingleton<HomeInteractor>(
       HomeInteractorImpl(
-        repository: getIt.get<HomeRepository>()
+        repository: _getIt.get<HomeRepository>()
       )
     );
 
-    getIt.registerSingleton<RestaurantDetailInteractor>(
+    _getIt.registerSingleton<RestaurantDetailInteractor>(
       RestaurantDetailInteractorImpl(
-        repository: getIt.get<RestaurantRepository>()
+        repository: _getIt.get<RestaurantRepository>()
       )
     );
 
-    getIt.registerSingleton<ReviewInteractor>(
+    _getIt.registerSingleton<ReviewInteractor>(
       ReviewInteractorImpl(
-        repository: getIt.get<ReviewRepository>()
+        repository: _getIt.get<ReviewRepository>()
       )
     );
 
-    getIt.registerSingleton<SearchInteractor>(
+    _getIt.registerSingleton<SearchInteractor>(
       SearchInteractorImpl(
-        repository: getIt.get<SearchRepository>()
+        repository: _getIt.get<SearchRepository>()
       )
     );
   }

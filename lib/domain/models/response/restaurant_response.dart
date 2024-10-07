@@ -33,6 +33,15 @@ class RestaurantListResponse {
     city: restaurant['city'],
     rating: restaurant['rating']
   );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'description': description,
+    'pictureId': pictureId,
+    'city': city,
+    'rating': rating
+  };
 }
 
 class RestaurantDetailResponse {

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:whats_on_restaurant/common/di.dart';
-import 'package:whats_on_restaurant/common/error_handler.dart';
+import 'package:whats_on_restaurant/common/helper/snackbar_helper.dart';
+import 'package:whats_on_restaurant/common/navigation.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/main.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/viewmodel/restaurant_detail_view_model.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
-import 'package:whats_on_restaurant/modules/review/ui/all_review_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -43,7 +43,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => RestaurantDetailViewModel(
-        interactor: DependencyInjection.getIt.get<RestaurantDetailInteractor>(),
+        interactor: DependencyInjection.getInstance<RestaurantDetailInteractor>(),
         id: widget.id
       ),
       child: Scaffold(
@@ -58,7 +58,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                 return _buildMainView(context, viewModel.result);
               case ResultState.noConnection:
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ErrorHandler.handleError(
+                  SnackbarHelper.handleError(
                     context: context, 
                     error: viewModel.message,
                     autoDismiss: false,
@@ -71,7 +71,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
               case ResultState.noData:
               case ResultState.error:
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ErrorHandler.handleError(context: context, error: viewModel.message);
+                  SnackbarHelper.handleError(context: context, error: viewModel.message);
                 });
                 return Container();
             }
@@ -90,7 +90,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                         'id': widget.id,
                         'name': viewModel.result.name
                       };
-                      Navigator.pushNamed(context, AddReviewPage.routeName, arguments: data);
+                      Navigation.navigate(toRoute: AddReviewPage.routeName, arguments: data);
                     }, 
                     style: ElevatedButton.styleFrom(shape: StadiumBorder()),
                     child: Text(
@@ -533,6 +533,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
   }
 
   void _onTapAllReviews(List<RestaurantReview> allReview) {
-    Navigator.pushNamed(context, AllReviewPage.routeName, arguments: allReview);
+    Navigation.navigate(toRoute: AddReviewPage.routeName, arguments: allReview);
   }
 }

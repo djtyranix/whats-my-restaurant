@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whats_on_restaurant/common/navigation.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
 
@@ -16,7 +17,7 @@ class RestaurantListView extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          Navigator.pushNamed(context, RestaurantDetailPage.routeName, arguments: entry.id);
+          Navigation.navigate(toRoute: RestaurantDetailPage.routeName, arguments: entry.id);
         },
         child: Row(
           children: [

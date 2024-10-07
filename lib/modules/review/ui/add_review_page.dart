@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_on_restaurant/common/di.dart';
-import 'package:whats_on_restaurant/common/error_handler.dart';
+import 'package:whats_on_restaurant/common/helper/snackbar_helper.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/modules/review/interactor/review_interactor.dart';
 import 'package:whats_on_restaurant/modules/review/viewmodel/add_review_view_model.dart';
@@ -29,7 +29,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AddReviewViewModel(
-        interactor: DependencyInjection.getIt.get<ReviewInteractor>(),
+        interactor: DependencyInjection.getInstance<ReviewInteractor>(),
         id: widget.data['id'] ?? ''
       ),
       child: LoaderOverlay(
@@ -189,7 +189,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
         break;
       case ResultState.noConnection:
       context.loaderOverlay.hide();
-        ErrorHandler.handleError(
+        SnackbarHelper.handleError(
           context: context, 
           error: viewModel.message,
           autoDismiss: false,
@@ -201,7 +201,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
       case ResultState.noData:
       case ResultState.error:
         context.loaderOverlay.hide();
-        ErrorHandler.handleError(context: context, error: 'Error submitting form, please try again later.');
+        SnackbarHelper.handleError(context: context, error: 'Error submitting form, please try again later.');
         break;
     }
   }
