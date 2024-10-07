@@ -4,9 +4,12 @@ import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/error_handler.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/common/ui/restaurant_list_view.dart';
+import 'package:whats_on_restaurant/main.dart';
+import 'package:whats_on_restaurant/modules/favorite/ui/favorite_page.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
 import 'package:whats_on_restaurant/modules/home/viewmodel/home_view_model.dart';
 import 'package:whats_on_restaurant/modules/search/ui/search_page.dart';
+import 'package:whats_on_restaurant/modules/settings/ui/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
@@ -21,10 +24,14 @@ class _HomePageState extends State<HomePage> with RouteAware {
   final _focusNode = FocusNode();
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
   void didPopNext() {
     _focusNode.unfocus();
-    var viewModel = Provider.of<HomeViewModel>(context);
-    viewModel.getConnection();
     super.didPopNext();
   }
 
@@ -51,7 +58,35 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 fontSize: 24
               ),
             ),
-          )
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: GestureDetector(
+                onTap: () {
+                  _goToFavoritePage(withContext: context);
+                },
+                child: Icon(
+                  Icons.favorite_outline_outlined,
+                  weight: 100,
+                  size: 26,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                onTap: () {
+                  _goToSettingsPage(withContext: context);
+                },
+                child: Icon(
+                  Icons.settings_outlined,
+                  weight: 100,
+                  size: 26,
+                ),
+              ),
+            )
+          ],
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -126,5 +161,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
         ),
       ),
     );
+  }
+
+  void _goToSettingsPage({required BuildContext withContext}) {
+    Navigator.pushNamed(withContext, SettingsPage.routeName);
+  }
+
+  void _goToFavoritePage({required BuildContext withContext}) {
+    Navigator.pushNamed(withContext, FavoritePage.routeName);
   }
 }

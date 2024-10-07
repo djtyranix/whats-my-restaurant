@@ -4,11 +4,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/styles.dart';
 import 'package:whats_on_restaurant/domain/models/restaurant.dart';
+import 'package:whats_on_restaurant/modules/favorite/ui/favorite_page.dart';
 import 'package:whats_on_restaurant/modules/home/ui/home_page.dart';
 import 'package:whats_on_restaurant/modules/restaurant/ui/restaurant_detail_page.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
 import 'package:whats_on_restaurant/modules/review/ui/all_review_page.dart';
 import 'package:whats_on_restaurant/modules/search/ui/search_page.dart';
+import 'package:whats_on_restaurant/modules/settings/ui/settings_page.dart';
 
 void main() {
   DependencyInjection.configure();
@@ -46,7 +48,9 @@ class MyApp extends StatelessWidget {
         AllReviewPage.routeName: (context) => AllReviewPage(
           reviews: ModalRoute.of(context)?.settings.arguments as List<RestaurantReview>
         ),
-        SearchPage.routeName: (context) => const SearchPage()
+        SearchPage.routeName: (context) => const SearchPage(),
+        SettingsPage.routeName: (context) => const SettingsPage(),
+        FavoritePage.routeName: (context) => const FavoritePage()
       },
     );
   }
