@@ -187,12 +187,18 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  data.name,
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Text(
+                      data.name,
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
                   ),
                 ),
                 Consumer<RestaurantDetailViewModel>(
@@ -205,7 +211,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                         viewModel.isFavorited
                         ? Icons.favorite
                         : Icons.favorite_outline,
-                        size: 28,
+                        size: 30,
                         color: viewModel.isFavorited
                         ? Colors.red
                         : Colors.black,

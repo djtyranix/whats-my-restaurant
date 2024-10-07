@@ -33,6 +33,14 @@ class RestaurantList {
     rating: response.rating,
     pictureId: 'https://restaurant-api.dicoding.dev/images/small/${response.pictureId}'
   );
+
+  factory RestaurantList.fromObject(RestaurantListObject object) => RestaurantList(
+    id: object.id, 
+    name: object.name,
+    city: object.city, 
+    rating: object.rating, 
+    pictureId: object.pictureId
+  );
 }
 
 class RestaurantDetail {

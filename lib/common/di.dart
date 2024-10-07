@@ -5,6 +5,8 @@ import 'package:whats_on_restaurant/common/helper/notification_helper.dart';
 import 'package:whats_on_restaurant/data/source/local_data_source.dart';
 import 'package:whats_on_restaurant/data/source/remote_data_source.dart';
 import 'package:whats_on_restaurant/domain/objects/restaurant_list_object.dart';
+import 'package:whats_on_restaurant/modules/favorite/data/favorite_repository.dart';
+import 'package:whats_on_restaurant/modules/favorite/interactor/favorite_interactor.dart';
 import 'package:whats_on_restaurant/modules/home/data/home_repository.dart';
 import 'package:whats_on_restaurant/modules/home/interactor/home_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/data/restaurant_repository.dart';
@@ -71,6 +73,12 @@ class DependencyInjection {
         remote: _getIt.get()
       )
     );
+
+    _getIt.registerSingleton<FavoriteRepository>(
+      FavoriteRepositoryImpl(
+        local: _getIt.get()
+      )
+    );
   }
 
   static void _registerInteractor() {
@@ -94,6 +102,12 @@ class DependencyInjection {
 
     _getIt.registerSingleton<SearchInteractor>(
       SearchInteractorImpl(
+        repository: _getIt.get()
+      )
+    );
+
+    _getIt.registerSingleton<FavoriteInteractor>(
+      FavoriteInteractorImpl(
         repository: _getIt.get()
       )
     );
