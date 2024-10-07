@@ -82,7 +82,7 @@ class RestaurantDetail {
   );
 
   RestaurantListObject toObject() {
-    return RestaurantListObject(id, name, city, rating, pictureId);
+    return RestaurantListObject(id, name, city, rating.toDouble(), pictureId);
   }
 }
 

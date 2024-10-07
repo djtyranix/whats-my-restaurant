@@ -13,7 +13,7 @@ class RestaurantListObject extends _RestaurantListObject
     String id,
     String name,
     String city,
-    num rating,
+    double rating,
     String pictureId,
   ) {
     RealmObjectBase.set(this, 'id', id);
@@ -41,9 +41,9 @@ class RestaurantListObject extends _RestaurantListObject
   set city(String value) => RealmObjectBase.set(this, 'city', value);
 
   @override
-  num get rating => RealmObjectBase.get<num>(this, 'rating') as num;
+  double get rating => RealmObjectBase.get<double>(this, 'rating') as double;
   @override
-  set rating(num value) => RealmObjectBase.set(this, 'rating', value);
+  set rating(double value) => RealmObjectBase.set(this, 'rating', value);
 
   @override
   String get pictureId =>
