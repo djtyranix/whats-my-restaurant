@@ -61,8 +61,26 @@ class _FavoritePageState extends State<FavoritePage> with RouteAware {
                             return RestaurantListView(entry: viewModel.result[index]);
                           }
                         );
-                      case ResultState.noConnection:
                       case ResultState.noData:
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.favorite_outline,
+                                size: 80,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  viewModel.message
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      case ResultState.noConnection:
                       case ResultState.error:
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           SnackbarHelper.handleError(context: context, error: viewModel.message);
