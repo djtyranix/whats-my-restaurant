@@ -21,12 +21,14 @@ class BackgroundService {
   }
 
   static Future<void> callback() async {
-    developer.log('Alarm is fired.');
+    DependencyInjection.configure();
     final NotificationHelper notificationHelper = DependencyInjection.getInstance();
     final HomeRepository homeRepository = DependencyInjection.getInstance();
     final Random random = Random();
     var restaurantList = await homeRepository.getRestaurants();
     var restaurantToShow = restaurantList[random.nextInt(restaurantList.length)];
+
+    developer.log('Alarm is fired.');
 
     await notificationHelper.showNotification(
       flutterLocalNotificationsPlugin, 

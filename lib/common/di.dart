@@ -26,8 +26,8 @@ class DependencyInjection {
   }
 
   static void _registerHelpers() {
-    _getIt.registerSingleton(NotificationHelper());
-    _getIt.registerSingleton(BackgroundService());
+    _getIt.registerSingleton<NotificationHelper>(NotificationHelper());
+    _getIt.registerSingleton<BackgroundService>(BackgroundService());
   }
 
   static void _registerDataSource() {

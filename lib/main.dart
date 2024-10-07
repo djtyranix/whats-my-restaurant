@@ -24,8 +24,8 @@ import 'package:whats_on_restaurant/modules/search/ui/search_page.dart';
 import 'package:whats_on_restaurant/modules/settings/ui/settings_page.dart';
 
 void main() async {
-  DependencyInjection.configure();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  DependencyInjection.configure();
 
   PackageInfo info = await PackageInfo.fromPlatform();
   packageInfo = info;
