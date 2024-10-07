@@ -214,7 +214,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                         size: 30,
                         color: viewModel.isFavorited
                         ? Colors.red
-                        : Colors.black,
+                        : DefaultTextStyle.of(context).style.color,
                       )
                     );
                   },
