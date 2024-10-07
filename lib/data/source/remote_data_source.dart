@@ -5,12 +5,12 @@ import 'package:whats_on_restaurant/data/api/api_request.dart';
 import 'package:http/http.dart' as http;
 
 abstract class RemoteDataSource {
-  Future<Map<String, dynamic>> request(ApiRequest request, String? pathId, Map<String, dynamic>? payload, Map<String, dynamic>? query);
+  Future<Map<String, dynamic>> request(ApiRequest request, String? pathId, Map<String, dynamic>? payload, Map<String, dynamic>? query, {http.Client? client});
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   @override
-  Future<Map<String, dynamic>> request(ApiRequest request, String? pathId, Map<String, dynamic>? payload, Map<String, dynamic>? query) async {
+  Future<Map<String, dynamic>> request(ApiRequest request, String? pathId, Map<String, dynamic>? payload, Map<String, dynamic>? query, {http.Client? client}) async {
     var authority = request.authority();
     var pathUrl = request.requestUrl();
 
@@ -26,14 +26,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     var url = Uri.https(authority, pathUrl, query);
 
     if (request.requestType() == ApiRequestType.post) {
-      return await postRequest(request, url, payload);
+      return await postRequest(request, url, payload, client: client);
     } else {
-      return await getRequest(request, url);
+      return await getRequest(request, url, client: client);
     }
   }
 
-  Future<Map<String, dynamic>> postRequest(ApiRequest request, Uri url, Map<String, dynamic>? payload) async {
-    final response = await http.post(url, body: payload);
+  Future<Map<String, dynamic>> postRequest(ApiRequest request, Uri url, Map<String, dynamic>? payload, {http.Client? client}) async {
+    final response = client != null
+    ? await client.post(url, body: payload)
+    : await http.post(url, body: payload);
 
     if (response.isSuccess()) {
       // Api call success
@@ -44,8 +46,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
   }
 
-  Future<Map<String, dynamic>> getRequest<T>(ApiRequest request, Uri url) async {
-    final response = await http.get(url);
+  Future<Map<String, dynamic>> getRequest<T>(ApiRequest request, Uri url, {http.Client? client}) async {
+    final response = client != null
+    ? await client.get(url)
+    : await http.get(url);
 
     if (response.isSuccess()) {
       // Api call success

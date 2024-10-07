@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:whats_on_restaurant/data/api/api_request.dart';
+import 'package:http/http.dart' as http;
 import 'package:whats_on_restaurant/data/source/remote_data_source.dart';
 import 'package:whats_on_restaurant/domain/models/response/restaurant_response.dart';
 
@@ -16,14 +17,14 @@ class HomeRepositoryImpl implements HomeRepository {
   });
 
   @override
-  Future<List<RestaurantListResponse>> getRestaurants() async {
+  Future<List<RestaurantListResponse>> getRestaurants({http.Client? client}) async {
     try {
-      final json = await remote.request(ApiRequest.restaurantList, null, null, null);
+      final json = await remote.request(ApiRequest.restaurantList, null, null, null, client: client);
       final List data = json['restaurants'];
       return data.map((object) => RestaurantListResponse.fromJson(object)).toList();
     } catch(e) {
       log(e.toString());
-      throw Exception;
+      throw Exception(e);
     }
   }
 }
