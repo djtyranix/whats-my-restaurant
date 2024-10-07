@@ -59,7 +59,7 @@ enum Settings {
           return Switch.adaptive(
             value: viewModel.isDarkTheme, 
             onChanged: (isSwitchedOn) async {
-              viewModel.setDarkTheme(state: isSwitchedOn);
+              await viewModel.setDarkTheme(state: isSwitchedOn);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 SnackbarHelper.handleSuccess(
                   context: context,
@@ -76,7 +76,7 @@ enum Settings {
           return Switch.adaptive(
             value: viewModel.isNotificationScheduled,
             onChanged: (isSwitchedOn) async {
-              viewModel.scheduleNotification(state: isSwitchedOn);
+              await viewModel.scheduleNotification(state: isSwitchedOn);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 SnackbarHelper.handleSuccess(
                   context: context,

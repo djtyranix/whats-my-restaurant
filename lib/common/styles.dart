@@ -5,6 +5,14 @@ const Color primaryContainer = Color(0xFFD3E4FF);
 const Color primaryContainerDark = Color(0xFF1E4875);
 const Color onPrimaryContainer = Color(0xFF001C38);
 const Color onPrimaryContainerDark = Color(0xFFD3E4FF);
+const Color successContainer = Color(0xFFBBF0B5);
+const Color successContainerDark = Color(0xFF225025);
+const Color onSuccessContainer = Color(0xFF002105);
+const Color onSuccessContainerDark = Color(0xFFBBF0B5);
+const Color errorContainer = Color(0xFFFFDAD6);
+const Color errorContainerDark = Color(0xFF93000A);
+const Color onErrorContainer = Color(0xFF410002);
+const Color onErrorContainerDark = Color(0xFFFFDAD6);
  
 final TextTheme mainTextTheme = TextTheme(
   displayLarge: GoogleFonts.poppins(
