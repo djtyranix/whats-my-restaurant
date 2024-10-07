@@ -4,6 +4,7 @@ import 'package:whats_on_restaurant/common/di.dart';
 import 'package:whats_on_restaurant/common/helper/snackbar_helper.dart';
 import 'package:whats_on_restaurant/common/result_state.dart';
 import 'package:whats_on_restaurant/common/ui/restaurant_list_view.dart';
+import 'package:whats_on_restaurant/main.dart';
 import 'package:whats_on_restaurant/modules/favorite/interactor/favorite_interactor.dart';
 import 'package:whats_on_restaurant/modules/favorite/viewmodel/favorite_view_model.dart';
 
@@ -16,7 +17,21 @@ class FavoritePage extends StatefulWidget {
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _FavoritePageState extends State<FavoritePage> with RouteAware {
+  late FavoriteViewModel viewModel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    viewModel.fetchRestaurantList();
+    super.didPopNext();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -35,6 +50,7 @@ class _FavoritePageState extends State<FavoritePage> {
               Expanded(
                 child: Consumer<FavoriteViewModel>(
                   builder: (context, viewModel, _) {
+                    this.viewModel = viewModel;
                     switch (viewModel.state) {
                       case ResultState.loading:
                         return const Center(child: CircularProgressIndicator());

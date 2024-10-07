@@ -9,7 +9,7 @@ class FavoriteViewModel extends ViewModel {
   FavoriteViewModel({
     required this.interactor
   }) {
-    _fetchRestaurantList();
+    fetchRestaurantList();
   }
 
   late List<RestaurantList> _resultList;
@@ -20,7 +20,7 @@ class FavoriteViewModel extends ViewModel {
   List<RestaurantList> get result => _resultList;
   ResultState get state => _state;
 
-  Future<dynamic> _fetchRestaurantList() async {
+  Future<dynamic> fetchRestaurantList() async {
     try {
       _state = ResultState.loading;
       notifyListeners();
