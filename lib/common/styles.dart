@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
- 
-// const Color primaryColor = Color(0xFFFFFFFF);
-const Color secondaryColor = Color(0xFF8FABB7);
 
+const Color primaryContainer = Color(0xFFD3E4FF);
+const Color primaryContainerDark = Color(0xFF1E4875);
+const Color onPrimaryContainer = Color(0xFF001C38);
+const Color onPrimaryContainerDark = Color(0xFFD3E4FF);
+ 
 final TextTheme mainTextTheme = TextTheme(
   displayLarge: GoogleFonts.poppins(
       fontSize: 92, fontWeight: FontWeight.w300, letterSpacing: -1.5),
@@ -47,6 +49,12 @@ ThemeData getThemeData(BuildContext context, Brightness brightness) {
     appBarTheme: const AppBarTheme(
       elevation: 0,
       centerTitle: true
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(  
+        backgroundColor: brightness == Brightness.dark ? primaryContainerDark : primaryContainer,
+        foregroundColor: brightness == Brightness.dark ? onPrimaryContainerDark : onPrimaryContainer
+      )
     )
   );
 }
