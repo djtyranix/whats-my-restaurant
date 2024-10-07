@@ -199,11 +199,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
                   builder: (context, viewModel, _) {
                     return IconButton(
                       onPressed: () {
-                        
+                        _onTapFavorite(context, viewModel);
                       },
                       icon: Icon(
-                        Icons.favorite_outline,
+                        viewModel.isFavorited
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
                         size: 28,
+                        color: viewModel.isFavorited
+                        ? Colors.red
+                        : Colors.black,
                       )
                     );
                   },
@@ -557,5 +562,24 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
 
   void _onTapAllReviews(List<RestaurantReview> allReview) {
     Navigation.navigate(toRoute: AllReviewPage.routeName, arguments: allReview);
+  }
+
+  void _onTapFavorite(BuildContext context, RestaurantDetailViewModel viewModel) async {
+    if (await viewModel.setFavorite()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SnackbarHelper.handleSuccess(
+          context: context, 
+          message: viewModel.isFavorited ? 'Added to your favorites.' : 'Removed from your favorites.'
+        );
+      });
+    } else {
+      viewModel.resetFavoriteState();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SnackbarHelper.handleError(
+          context: context, 
+          error: "Error updating favorites. Please try again later."
+        );
+      });
+    }
   }
 }

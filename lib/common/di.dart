@@ -49,25 +49,26 @@ class DependencyInjection {
   static void _registerRepository() {
     _getIt.registerSingleton<HomeRepository>(
       HomeRepositoryImpl(
-        remote: _getIt.get<RemoteDataSource>()
+        remote: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<RestaurantRepository>(
       RestaurantRepositoryImpl(
-        remote: _getIt.get<RemoteDataSource>()
+        remote: _getIt.get(),
+        local: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<ReviewRepository>(
       ReviewRepositoryImpl(
-        remote: _getIt.get<RemoteDataSource>()
+        remote: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<SearchRepository>(
       SearchRepositoryImpl(
-        remote: _getIt.get<RemoteDataSource>()
+        remote: _getIt.get()
       )
     );
   }
@@ -75,25 +76,25 @@ class DependencyInjection {
   static void _registerInteractor() {
     _getIt.registerSingleton<HomeInteractor>(
       HomeInteractorImpl(
-        repository: _getIt.get<HomeRepository>()
+        repository: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<RestaurantDetailInteractor>(
       RestaurantDetailInteractorImpl(
-        repository: _getIt.get<RestaurantRepository>()
+        repository: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<ReviewInteractor>(
       ReviewInteractorImpl(
-        repository: _getIt.get<ReviewRepository>()
+        repository: _getIt.get()
       )
     );
 
     _getIt.registerSingleton<SearchInteractor>(
       SearchInteractorImpl(
-        repository: _getIt.get<SearchRepository>()
+        repository: _getIt.get()
       )
     );
   }

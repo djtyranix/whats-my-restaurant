@@ -3,6 +3,9 @@ import 'package:whats_on_restaurant/modules/restaurant/data/restaurant_repositor
 
 abstract class RestaurantDetailInteractor {
   Future<RestaurantDetail> getRestaurantDetail(String id);
+  Future<bool> isFavorited(String id);
+  Future<bool> addFavorite(RestaurantDetail restaurant);
+  Future<bool> deleteFavorite(String id);
 }
 
 class RestaurantDetailInteractorImpl implements RestaurantDetailInteractor {
@@ -19,6 +22,33 @@ class RestaurantDetailInteractorImpl implements RestaurantDetailInteractor {
       return RestaurantDetail.fromResponse(data);
     } catch(e) {
       throw Exception;
+    }
+  }
+  
+  @override
+  Future<bool> addFavorite(RestaurantDetail restaurant) async {
+    try {
+      return await repository.addFavorite(restaurant.toObject());
+    } catch(e) {
+      throw Exception(e);
+    }
+  }
+  
+  @override
+  Future<bool> deleteFavorite(String id) async {
+    try {
+      return await repository.deleteFavorite(id);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  
+  @override
+  Future<bool> isFavorited(String id) async {
+    try {
+      return await repository.isFavorited(id);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

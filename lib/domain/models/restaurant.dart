@@ -1,4 +1,5 @@
 import 'package:whats_on_restaurant/domain/models/response/restaurant_response.dart';
+import 'package:whats_on_restaurant/domain/objects/restaurant_list_object.dart';
 
 class Menu {
   final String name;
@@ -71,6 +72,10 @@ class RestaurantDetail {
     categories: response.categories.map((category) => Menu.fromResponse(category)).toList(),
     customerReviews: response.customerReviews.map((review) => RestaurantReview.fromResponse(review)).toList()
   );
+
+  RestaurantListObject toObject() {
+    return RestaurantListObject(id, name, city, rating, pictureId);
+  }
 }
 
 class RestaurantMenu{

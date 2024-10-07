@@ -101,7 +101,7 @@ class RestaurantListObject extends _RestaurantListObject
     register(_toEJson, _fromEJson);
     return const SchemaObject(
         ObjectType.realmObject, RestaurantListObject, 'RestaurantListObject', [
-      SchemaProperty('id', RealmPropertyType.string),
+      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('city', RealmPropertyType.string),
       SchemaProperty('rating', RealmPropertyType.double),

@@ -8,11 +8,13 @@ class RestaurantDetailViewModel extends ViewModel {
   final RestaurantDetailInteractor interactor;
   final String id;
 
+  bool _isFavorited = false;
   late RestaurantDetail _result;
   late ResultState _state = ResultState.loading;
   String _message = '';
   List<ConnectivityResult> _connectivityResult = [];
 
+  bool get isFavorited => _isFavorited;
   String get message => _message;
   RestaurantDetail get result => _result;
   ResultState get state => _state;
@@ -39,7 +41,9 @@ class RestaurantDetailViewModel extends ViewModel {
       _state = ResultState.loading;
       notifyListeners();
       final data = await interactor.getRestaurantDetail(id);
+      final isFav = await interactor.isFavorited(id);
       _state = ResultState.hasData;
+      _isFavorited = isFav;
       notifyListeners();
       return _result = data;
     } catch(e) {
@@ -58,5 +62,29 @@ class RestaurantDetailViewModel extends ViewModel {
     } else {
       return _fetchRestaurantDetailWithId(id);
     }
+  }
+
+  Future<bool> setFavorite() async {
+    // Copy the current isFavorite state
+    var currentState = _isFavorited;
+
+    // Toggle the isFavorite
+    _isFavorited = !_isFavorited;
+
+    if (currentState) {
+      // Remove from favorite
+      var result = await interactor.deleteFavorite(id);
+      notifyListeners();
+      return result;
+    } else {
+      // Add to favorite
+      var result = await interactor.addFavorite(_result);
+      notifyListeners();
+      return result;
+    }
+  }
+
+  void resetFavoriteState() async {
+    _isFavorited = await interactor.isFavorited(id);
   }
 }
