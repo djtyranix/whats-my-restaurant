@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<PreferenceProvider>(
         builder: (context, preferences, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'What\'s on Restaurant?',
             theme: getThemeData(context, Brightness.light),
             darkTheme: getThemeData(context, Brightness.dark),
