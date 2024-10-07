@@ -11,6 +11,7 @@ import 'package:whats_on_restaurant/main.dart';
 import 'package:whats_on_restaurant/modules/restaurant/interactor/restaurant_detail_interactor.dart';
 import 'package:whats_on_restaurant/modules/restaurant/viewmodel/restaurant_detail_view_model.dart';
 import 'package:whats_on_restaurant/modules/review/ui/add_review_page.dart';
+import 'package:whats_on_restaurant/modules/review/ui/all_review_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -537,6 +538,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> with RouteA
   }
 
   void _onTapAllReviews(List<RestaurantReview> allReview) {
-    Navigation.navigate(toRoute: AddReviewPage.routeName, arguments: allReview);
+    Navigation.navigate(toRoute: AllReviewPage.routeName, arguments: allReview);
   }
 }
